@@ -24,6 +24,16 @@ Tüm trafiği `torsocks` aracılığıyla **Tor Ağı** üzerinden geçirir. `cu
 
 ---
 
+## ⚠️ Yasal Uyarı (Disclaimer)
+
+Bu yazılım **yalnızca eğitim amaçlı** ve **kişisel gizlilik araştırmaları** için geliştirilmiştir.
+
+* Bu script, **Tor Browser'ın sunduğu tam kapsamlı güvenliği ve anonimliği (OpSec) garanti etmez.**
+* Kullanıcı, bu aracı kullanarak gerçekleştirdiği tüm eylemlerden yasal ve teknik olarak **tek başına sorumludur.**
+* Geliştirici (**Padros**), bu aracın kötü amaçlı kullanımından veya doğabilecek herhangi bir zarardan sorumlu tutulamaz.
+
+---
+
 ## 🛠️ Gereksinimler (Dependencies)
 
 Bu aracı kullanabilmek için aşağıdaki paketlerin sisteminizde yüklü olması gerekir:
