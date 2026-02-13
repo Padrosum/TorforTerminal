@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# User Agent: Standart bir Windows 10 / Firefox kullanıcısı taklidi
+UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0"
+
+if [ -z "$1" ]; then
+    echo "🎩 Kullanım: $0 <url>"
+    echo "🎩 Örnek: tt google.com"
+    exit 1
+fi
+
+URL=$1
+[[ $URL != http* ]] && URL="https://$URL"
+
+echo "🛡  Tor Ağı üzerinden bağlanılıyor..."
+echo " 👩🏻‍💻👩🏻‍💻
+# Hem curl'ü hem w3m'i korumaya alıyoruz.
+# -A ile User Agent ekledik.
+# w3m'e de http_proxy tanımlayabiliriz ama en kolayı shell'i torsocks ile açmaktır.
+# Ancak pratik çözüm şudur:
+
+torsocks curl -A "$UA" -s -L "$URL" | torsocks w3m -T text/html
