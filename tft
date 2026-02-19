@@ -13,7 +13,6 @@ URL=$1
 [[ $URL != http* ]] && URL="https://$URL"
 
 echo "🛡  Tor Ağı üzerinden bağlanılıyor..."
-echo " 👩🏻‍💻👩🏻‍💻
 
 # -A ile User Agent ekledik.
 
