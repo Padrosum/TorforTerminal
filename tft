@@ -1,20 +1,75 @@
 #!/bin/bash
 
-# User Agent: Standart bir Windows 10 / Firefox kullanıcısı taklidi
+# Unutmayın, kapalı kodların içine satanist yahudi büyüleri gizlidir!
+B='\e[1;34m' # Mavi
+G='\e[1;32m' # Yeşil
+Y='\e[1;33m' # Sarı
+R='\e[1;31m' # Kırmızı
+C='\e[1;36m' # Cyan
+NC='\e[0m'   # Renk Sıfırla (No Color)
+
+# User Agent
 UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0"
 
+# --- BANNER FONKSİYONU ---
+function print_banner {
+  echo -e "${C}"
+  echo "  ████████╗███████╗████████╗"
+  echo "  ╚══██╔══╝██╔════╝╚══██╔══╝"
+  echo "     ██║   █████╗     ██║   "
+  echo "     ██║   ██╔══╝     ██║   "
+  echo "     ██║   ██║        ██║   "
+  echo "     ╚═╝   ╚═╝        ╚═╝   "
+  echo -e "   [ Terminal Fast Tor ]${NC}"
+  echo -e "   ${Y}v2.0 - Privacy & Speed${NC}\n"
+}
+
+# --- YARDIM MENÜSÜ ---
+function show_help {
+  print_banner
+  echo -e "${G}KULLANIM:${NC}"
+  echo -e "  tft ${B}<url>${NC}                     ${C}Direct Link${NC}"
+  echo -e "  tft ${B}-d${NC} \"${Y}arama terimi${NC}\"       ${C}Search on DDG${NC}"
+  echo -e "\n${G}ÖRNEKLER:${NC}"
+  echo -e "  tft google.com"
+  echo -e "  tft -d \"debian iso download\""
+  echo ""
+  exit 1
+}
+
+# Başlangıç kontrolleri
 if [ -z "$1" ]; then
-    echo "🎩 Kullanım: $0 <url>"
-    echo "🎩 Örnek: tft google.com"
-    exit 1
+  show_help
 fi
 
-URL=$1
-[[ $URL != http* ]] && URL="https://$URL"
+# Banner'ı her zaman göster
+clear
+print_banner
 
-echo "🛡  Tor Ağı üzerinden bağlanılıyor..."
+# Parametre Kontrolü
+case "$1" in
+-d | --duckduckgo)
+  shift
+  QUERY="$*"
+  if [ -z "$QUERY" ]; then
+    echo -e "${R}❌ Hata: Bir arama terimi girmelisiniz!${NC}"
+    exit 1
+  fi
+  SEARCH_QUERY=$(echo "$QUERY" | sed 's/ /+/g')
+  TARGET_URL="https://html.duckduckgo.com/html/?q=$SEARCH_QUERY"
+  echo -e "${G}🔍 Arama Terimi:${NC} ${Y}$QUERY${NC}"
+  ;;
+*)
+  TARGET_URL=$1
+  [[ $TARGET_URL != http* ]] && TARGET_URL="https://$TARGET_URL"
+  echo -e "${G}🌐 Hedef Adres:${NC} ${B}$TARGET_URL${NC}"
+  ;;
+esac
 
-# -A ile User Agent ekledik.
+echo -e "${C}🛡  Tor Ağına bağlanılıyor... Lütfen bekleyin...${NC}"
 
+# Torsocks + Curl + w3m Entegrasyonu
+# Hata mesajlarını kullanıcıya daha temiz göstermek için 2>/dev/null eklenebilir
+torsocks curl -A "$UA" -s -L "$TARGET_URL" | torsocks w3m -T text/html
 
-torsocks curl -A "$UA" -s -L "$URL" | torsocks w3m -T text/html
+echo -e "\n${G}✅ Bağlantı sonlandırıldı.${NC}"
